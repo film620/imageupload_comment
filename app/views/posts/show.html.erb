@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @post.name %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @post.title %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @post.content %>
+</p>
+
+<p>
+  <%if @post.avatar.attached? %>
+  <%= image_tag url_for(@post.avatar),class:'avatar' %>
+  <%end%>
+</p>
+
+
+<p>
+   <%= form_for @comment, url:post_comments_path(@post.id), method:"POST" do |f| %>
+    작성자: <%=f.text_field :user %>
+    내용 : <%= f.text_field :memo %>
+    <%= f.submit "댓글쓰기" %>
+    <% end %> 
+</p>
+
+
+<% @post.comments.each do|c|%>
+  작성자:<%=c.user %>
+  내용:<%= c.memo %>
+    <%= link_to "삭제하기", post_comment_path(@post.id, c.id), method:"DELETE" %><br>
+<% end %>
+
+<%= link_to 'Edit', edit_post_path(@post) %> |
+<%= link_to 'Back', posts_path %>
